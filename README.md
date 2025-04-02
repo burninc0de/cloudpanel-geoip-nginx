@@ -29,7 +29,7 @@ Make sure to restart nginx afterwards:
 ```
 systemctl restart nginx
 ```
-## Automated Montly Updates
+## Automated Monthly Updates
 ```bash
 0 0 1 * * wget -q --no-clobber -O /etc/nginx/geoip/GeoIP.dat.gz https://mailfud.org/geoip-legacy/GeoIP.dat.gz && gunzip -f /etc/nginx/geoip/GeoIP.dat.gz && systemctl restart nginx
 ```
