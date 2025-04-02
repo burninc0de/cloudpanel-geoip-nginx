@@ -1,35 +1,35 @@
-# How To Update Cloudpanel GeoIP 
+# How To Update Cloudpanel GeoIP Database
 
-In case anyone else wonders about this:
-
-> [!GEOIP On CloudPanel Nginx]
-> Cloudpanel Nginx uses the v1 GEOIP module with "legacy GeoiP" database. It is located here "/etc/nginx/geoip/GeoIP.dat". To update that, Maxmind is USELESS. Luckily the friendly guys at MailFud got you covered.
->
-> > [!NOTE]  
-> Highlights information that users should take into account, even when skimming.
-> >
-> >
-> >
+In case anyone else is wondering about this:
 
 > [!TIP]
-> Optional information to help a user be more successful.
+>  Cloudpanel Nginx uses the older GEOIP Nginx module with "legacy GeoiP" database.
+>
+It is located here:
 
-> [!IMPORTANT]  
-> Crucial information necessary for users to succeed.
+```
+/etc/nginx/geoip/GeoIP.dat
+```
 
 > [!WARNING]  
-> Critical content demanding immediate user attention due to potential risks.
+> If you want to update your database, Maxmind is USELESS, since they do not offer or allow downloads of legacy GeoIP databases.
 
-> [!CAUTION]
-> Negative potential consequences of an action.
+Luckily the friendly fellow at [Mailfud](https://mailfud.org/geoip-legacy/) got you covered.
 
-This will run an automatic udpate from their service:
+> Here you can find regularly updated versions of the discontinued GeoIP legacy databases. Many distributions still use old GeoIP libraries, so you might find these useful. I use these on many systems myself, so consider the files and site stable.
+
+## Update Your CloudPanel GeoIP Database
 
 ```bash
 wget -q --no-clobber -O /etc/nginx/geoip/GeoIP.dat.gz https://mailfud.org/geoip-legacy/GeoIP.dat.gz && gunzip -f /etc/nginx/geoip/GeoIP.dat.gz
 ```
 
-or as a weekly cron:
+Make sure to restart nginx afterwards:
+
+```
+systemctl restart nginx
+```
+## Automated Weekly Updates
 ```bash
 0 0 * * 0 wget -q --no-clobber -O /etc/nginx/geoip/GeoIP.dat.gz https://mailfud.org/geoip-legacy/GeoIP.dat.gz && gunzip -f /etc/nginx/geoip/GeoIP.dat.gz && systemctl restart nginx
 ```
